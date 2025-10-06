@@ -38,6 +38,20 @@ module alu_tb;
     in_a = 16'sd29; in_b = 16'sd15; opcode = 4'b0100; #10ns; // Bitwise XOR
     in_a = 16'sd42; opcode = 4'b0101; #10ns; // Increment
     in_a = 16'sd12345; opcode = 4'b0110; #10ns; // Pass through A
+    in_b = 16'sd54321; opcode = 4'b0111; #10ns; // Pass through B
+    // check overflow
+    in_a = 16'sd20000; in_b = 16'sd200
+    00; opcode = 4'b0000; #10ns; // Addition overflow
+    in_a = -16'sd20000; in_b = -16'sd200
+    00; opcode = 4'b0000; #10ns; // Addition overflow
+    in_a = 16'sd20000; in_b = -16'sd-
+    10000; opcode = 4'b0001; #10ns; // Subtraction overflow
+    in_a = -16'sd20000; in_b = 16'sd20000; opcode = 4'b0001; #10ns; // Subtraction overflow
+    // check zero and negative
+    in_a = 16'sd10000; in_b = -16'sd10000; opcode = 4'b0001; #10ns; // Result zero
+    in_a = -16'sd10000; in_b = 16'sd20000; opcode = 4'b0001; #10ns; // Result negative
+    // Reset inputs at the end
+    in_a = 16'sd0; in_b = 16'sd0; opcode = 4'b0000; #10ns;
   end
 
 endmodule
